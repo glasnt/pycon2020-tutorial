@@ -1,0 +1,528 @@
+/*******************************
+ * Basic slide layout and colors
+ ******************************/
+@import url("../resources/fonts/pt-sans.css");
+@import url("../resources/fonts/pt-serif.css");
+@import url("../resources/fonts/roboto.css");
+
+
+@page {
+  size: 1210px 681px;
+  margin: 0;
+}
+
+@media print {
+  .remark-slide-scaler {
+    width: 100% !important;
+    height: 100% !important;
+    transform: scale(1) !important;
+    top: 0 !important;
+    left: 0 !important;
+  }
+}
+
+.caps { font-family: "PT Serif", serif;  font-variant: small-caps;}
+.thin { font-weight: normal }
+.thick { font-weight: 600 }
+
+.hljs-default pre code, .code, .remark-code{
+  border: none;
+  background-color: #fff !important;
+  padding: 0;
+}
+
+.remark-slide-content {
+    padding: 1em 6em 1em 6em;
+    font-family: 'PT Sans';
+    color: #000;
+    background-color: white;
+}
+
+/***********************
+ * Common content markup
+ ***********************/
+
+h1, h2, h3, .title h1, .title h2, .title h3 {
+    font-family: 'PT Sans';
+    font-weight: 400;
+    text-align: center;
+}
+
+h1, .title h1 { font-size: 5em; }
+h2, .title h2 { font-size: 4em; } 
+h3, .title h3 { font-size: 3em; }
+.h3 { font-size: 32pt; }
+
+p {
+    font-size: 24pt;
+    line-height: 1.2em;
+}
+
+li {
+    font-size: 24pt;
+    line-height: 1.2em;
+    margin: 0.4em 0;
+}
+
+li p {
+    margin: 0.4em 0;
+}
+
+pre {
+    white-space: pre-wrap;
+    max-width: 100%;
+}
+
+img {
+    display: block;
+    max-width: 100%;
+    max-height: 75%;
+    margin: 0 auto;
+}
+
+blockquote p:before {
+  color: #7f7f7c;
+  content: "“";
+  font-size: 4em;
+  line-height: 0.1em;
+  margin-right: 0.15em;
+  vertical-align: -0.35em;
+}
+
+blockquote p:after {
+  color: #7f7f7c;
+  content: "”";
+  font-size: 4em;
+  line-height: 0.1em;
+  margin-left: 0.15em;
+  vertical-align: -0.55em;
+}
+
+cite {
+    color: #7f7f7c;
+    display: block;
+    text-align: right;
+    margin-top: 1em;
+}
+
+/* Quotes in a list don't need as much padding */
+li cite {
+    margin-top: 0;
+}
+
+.center { vertical-align: middle }
+.wat { font-family: 'American Typewriter'; color: #F8BA00; font-weight: bold;}
+.new { font-family: 'American Typewriter'; color: #CB297B; font-weight: bold;}
+.why { font-family: 'American Typewriter'; color: #45E768; font-weight: bold;}
+.strike { text-decoration: line-through;}
+
+.wat-pos { font-size: 120pt; position:absolute; bottom: 3em; left: 1em;}
+.why-pos { font-size: 180pt; position:absolute; bottom: 0.5em; right: 0.5em;}
+.psg { font-weight: normal !important; color: rgb(0,136,0) }
+.cc { color: rgb(140,140,140)}
+
+.w { font-family: "American Typewriter"}
+.large { font-size: 35pt; line-height: 1; }
+.emoji { font-size: 60pt; line-height: 1; }
+.bc code { font-weight: bold; }
+.lemoji { font-size: 160pt; line-height: 1; }
+.white { color: white;}
+.green { outline: 4px solid #AED557; outline-offset: 5px; }
+.greyf { color: grey }
+.greenf { color: #AED557; }
+.blue  { outline: 4px solid #4ECDC4; outline-offset: 5px; }
+.bluef  { color: #4ECDC4; }
+.red   { outline: 4px solid #FF6B6B; outline-offset: 5px; }
+.rf  { color: #FF6B6B; }
+.red   { outline: 4px solid #FF6B6B; outline-offset: 5px; }
+.cf { color: cyan; font-weight: bold}
+.tb { font-weight: bold; color: white}
+.gf { color: green }
+.purple { outline: 4px solid #70568F; outline-offset: 5px; }
+
+.ecma { font-family: Cambria, Palatino Linotype, Palatino, Liberation Serif,  serif }
+.ecma-header { color: #f60}
+
+.pydocs { font-family: "Trebuchet MS", sans-serif; color: #1f435c; font-weight: 400; } 
+
+
+.tinytext { 
+    margin: 0;
+	padding: 0;
+	font-size: 50%;
+    line-height: 8pt;
+
+ }
+.ps-error { color: red !important; font-weight: bold; }
+
+.fix-tilt-long { 
+    position: absolute;
+    font-size: 48pt;
+    max-width: 400px;
+    right: 1em;
+    line-height: 1;
+    bottom: 0.5em;
+    z-index: 111;
+    color: grey;
+    font-family: monospace; 
+    font-weight: bold;
+    width: 100%;
+    text-align: center;
+    -webkit-transform: rotate(-15deg);
+    -moz-transform: rotate(-15deg);
+    -ms-transform: rotate(-15deg);
+    -o-transform: rotate(-15deg);
+    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+
+ }
+.fix-tilt { 
+    position: absolute;
+    font-size: 64pt;
+    max-width: 400px;
+    right: 0em;
+    line-height: 1;
+    bottom: 1.1em;
+    color: grey;
+    font-family: monospace; 
+    font-weight: bold;
+    width: 100%;
+    text-align: center;
+    -webkit-transform: rotate(-30deg);
+    -moz-transform: rotate(-30deg);
+    -ms-transform: rotate(-30deg);
+    -o-transform: rotate(-30deg);
+    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+}   
+.pyeol { 
+    white-space: nowrap;
+    position: absolute;
+    font-size: 64pt;
+    max-width: 400px;
+    right: 5em;
+    line-height: 1;
+    bottom: 4em;
+    z-index: 111;
+    color: RED; 
+    font-family: monospace; 
+    font-weight: bold;
+    width: 100%;
+    text-align: center;
+    -webkit-transform: rotate(-15deg);
+    -moz-transform: rotate(-15deg);
+    -ms-transform: rotate(-15deg);
+    -o-transform: rotate(-15deg);
+    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+
+ }
+
+.righthead { 
+    font-size: 34pt;
+    float: right;
+    top: 1em;
+    color: grey;
+    font-family: monospace;
+    right: 1em;
+    width: 100%;
+    text-align: right;
+}   
+
+.footnotes {
+    font-size: 18pt;
+    position: absolute;
+    bottom: 2em;
+    right: 4em;
+    width: 80%;
+    text-align: right;
+}
+
+.footnotes a { color: grey }
+.footnotes p {
+    font-size: 18pt;
+    margin: 0.2em 0;
+}
+
+/*********************/
+/* Two column layout */
+/*********************/
+.left-column {
+  width: 45%;
+  float: left;
+}
+
+.right-column {
+  width: 45%;
+  float: right;
+}
+
+
+/****************/
+/* Title slides */
+/****************/
+
+.remark-slide-content.title {
+    vertical-align: middle;
+}
+
+.title h1 {
+    margin: 0.2em;
+}
+
+.title.emoticon h1 {
+    font-size: 128px;
+}
+
+.title.emoticon.flip h1 {
+    font-size: 80px;
+}
+
+.title.emoji h1 {
+    font-size: 256px;
+}
+
+
+/******************/
+/* Reverse slides */
+/******************/
+
+.remark-slide-content.reverse {
+  /*background-color: #272726;*/
+  color: #f6f7f1;
+}
+
+/***************/
+/* Logo slides */
+/***************/
+
+.remark-slide-content.logo img {
+  margin-top: 15%;
+}
+
+
+
+/*********************/
+/* Screenshot slides */
+/*********************/
+
+.remark-slide-content.screenshot img {
+}
+
+/************************/
+/* projection */
+
+.remark-slide-content.image img {
+  margin-top: -50px; max-height: 700px
+}
+.remark-slide-content.background-black {
+    background: #ccc;
+    font-family: Serif;
+}
+.remark-slide-content.middle {
+    vertical-align: middle;
+}
+.remark-slide-content.center {
+    text-align: center;
+}
+/*********************/
+/* Django slides */
+/*********************/
+/*
+.remark-slide-content.django {
+  background-color: #092E20;
+}
+r { color: #d73a49 }
+l { color: #005cc5 }
+d { color: #032f62 }
+c { color: #6a737d; }
+o { color: #e36209}
+g { color: #6f42c1 }
+ty { color: rgb(215,254,185) }
+tg { color: rgb(0,135,6) }
+w { color: rgb(98,98,98); background-color: rgb(188,188,188)}
+ww { padding: 4px 7px 4px 7px; color: rgb(98,98,98); background-color: rgb(188,188,188)}
+tb { color: rgb(0,135,215) }
+ps { color: rgb(212,212,173) }
+dr { color: rgb(201,135,135) }
+
+*/
+ .left { text-align: left; }
+
+.prokyon { font-family: "DTLProkyonST", regular}
+.flux { font-family: "Flux", regular}
+.poly { font-family: "Poly", regular}
+.roboto { font-family: "Roboto", regular}
+ .djangobackground { background-color: "#0C3C26" }
+
+/* redacted font */ 
+@font-face { font-family: "RedactedB"; src: url("redacted-script-bold.ttf") format('truetype'); font-style:bold; }
+@font-face { font-family: "RedactedR"; src: url("redacted-script-regular.ttf") format('truetype'); font-style:normal; }
+rb { font-family: "RedactedB", regular;  }
+rr { font-family: "RedactedR", regular;  }
+
+.c { font-family: monospace }
+.code { 
+   font-family: monospace !important;
+   margin: 0;
+   padding: -10px;
+ 
+} 
+.inline-code { display: inline-block; }
+
+pre code, .hljs-default code, .remark-code { 
+   font-family: "SFMono-Regular",Consolas,"Liberation Mono",Menlo,Courier,monospace !important;
+   font-size: 24pt !important; 
+   line-height: 32pt !important; 
+    
+   /*margin-left: -50pt !important;*/
+} 
+
+span.foot { position:absolute; top: 670px; right: 1em; font-size: 50%; color: grey}
+span.foot a { color: grey !important}
+.reveal a { color: black}
+
+/*** Vector CSS Terminal Window
+Adapted from https://guides.codechewing.com/mac-terminal-shell-css-html
+Added: Zenburn, mostly. 
+***/
+table { margin-left: -80px }
+table th { font-family: "SFMono-Regular",Consolas,"Liberation Mono",Menlo,Courier,monospace !important; }
+table th { line-height: 100%; padding: 0 0.5em;}
+.shell-wrap {
+  width: 1000px;
+  margin: 80px auto 0 auto !important;
+  box-shadow: 0 0 30px rgba(0,0,0,0.4);
+
+  background: rgb(63,63,63) !important;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+}
+
+.shell-top-bar {
+  text-align: center;
+  color: #525252;
+  padding: 5px 0 !important;
+  margin: 0;
+  margin-bottom: 20px;
+  text-shadow: 1px 1px 0 rgba(255,255,255,0.5);
+  font-size: 1em !important;
+  font-family: 'BlinkMacSystemFont', -apple-system, sans-serif !important; 
+  border: 1px solid #CCCCCC;
+  border-bottom: none;
+
+  -webkit-border-top-left-radius: 3px;
+  -webkit-border-top-right-radius: 3px;
+  -moz-border-radius-topleft: 3px;
+  -moz-border-radius-topright: 3px;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+
+  background: #f7f7f7; /* Old browsers */
+  background: -moz-linear-gradient(top,  #f7f7f7 0%, #B8B8B8 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f7f7f7), color-stop(100%,#B8B8B8)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top,  #f7f7f7 0%,#B8B8B8 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top,  #f7f7f7 0%,#B8B8B8 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top,  #f7f7f7 0%,#B8B8B8 100%); /* IE10+ */
+  background: linear-gradient(to bottom,  #f7f7f7 0%,#B8B8B8 100%); /* W3C */
+}
+
+.shell-body {
+  margin: 0;
+  height: 470px;
+  text-align: left;
+  letter-spacing: -0.4px !important;
+  font-size: 17pt !important;
+  color: rgb(199,199,199);
+  font-family: "SFMono-Regular",Consolas,"Liberation Mono",Menlo,Courier,monospace !important;
+  line-height: 1.4em !important;
+  word-wrap: break-word !important;
+  overflow-wrap: break-word !important;
+
+  padding: 0px 10px 10px 10px !important; 
+  margin-top: -15px !important;
+
+  -webkit-border-bottom-right-radius: 3px;
+  -webkit-border-bottom-left-radius: 3px;
+  -moz-border-radius-bottomright: 3px;
+  -moz-border-radius-bottomleft: 3px;
+  border-bottom-right-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+
+.shell-body p:before {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.shell-body p {
+  word-wrap: break-word;
+  padding: 5px !important;
+  position: relative;
+  padding: 0 0 0 15px;
+}
+
+/**********************************/
+
+
+.remark-slides-area .remark-slide-content::after {
+    font-weight: normal;
+    font-family: "PT Sans" !important; 
+    color: grey;
+    content: "@glasnt";
+    padding: 10px; 
+    font-size: 18pt;
+    position: absolute;
+    top: 16px;
+    left: 24px;
+    opacity: 0.9;
+}
+
+.row2 { position: absolute; left: 400px }
+.row3 { position: absolute; left: 800px }
+
+.css-demo { font-family: 'Times New Roman', serif; text-align: center; font-weight: bold; font-size: 28pt; padding: 10px; }
+.css-demo .black { color: black}
+.css-demo .blacki { color: black !important}
+.css-demo .gold { color: gold}
+.nopad { padding: 0; }
+.inline-img img { display: inline-block; height: 50px; padding: 0 5px 0 5px;}
+
+.smol { font-size: 80%; }
+.table { font-size: 32pt; text-align: left; font-family: monospace  }
+.grey { color: grey }
+.gg { background-color: lightgrey }
+
+.paddown { padding-top: 20px }
+.right-image { float: right; max-width: 400px; padding: 20px;} 
+.white a { color: white }
+.b { font-weight: bold; }
+.smol { font-size: 80%; }
+
+w { color: rgb(98,98,98); background-color: rgb(188,188,188)}
+ww { padding: 4px 7px 4px 7px; color: rgb(98,98,98); background-color: rgb(188,188,188)}
+tb { color: rgb(0,135,215) }
+ps { color: rgb(212,212,173) }
+dr { color: rgb(201,135,135) }
+
+.w { color: white;}
+.e { font-size: 148pt; line-height: 1; 
+.w { color: white;}
+.c /*code*/ { font-family: monospace }}
+.sup { vertical-align: super}
+.slim { margin: 0}
+.h2 { font-size: 4em; }
+.nl a { color: black}
+.so { text-decoration: line-through }
+.lownote {
+    font-size: 18pt;
+    position: absolute;
+    bottom: 1.3em;
+    right: 4em;
+    width: 80%;
+    text-align: right;}
+.lownote a { color: grey }
+.lownote p {
+    font-size: 18pt;
+    margin: 0.2em 0;
+}
+.big { font-size: 200pt; }
