@@ -11,7 +11,7 @@
 
 * [Source code zip](https://github.com/GoogleCloudPlatform/django-demo-app-unicodex/archive/pycon2020.zip)
 
-## Reference Tutorial
+## Try the applcation locally
 
-* [django-demo-app-unicodex - Try the application locally](https://github.com/GoogleCloudPlatform/django-demo-app-unicodex/blob/master/docs/00-test-local.md)
+* [reference tutorial section](https://github.com/GoogleCloudPlatform/django-demo-app-unicodex/blob/master/docs/00-test-local.md)
 

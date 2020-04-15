@@ -14,7 +14,11 @@
 
 ## How this repo works
 
-Each folder is it's own segment of the tutorial. It is designed to work with a facilitator, so these notes may not make sense on their own without a guide. 
+This repo is holds materials for the facilitator to run a tutorial around unicodex. 
+
+It's designed to complement the existing [django-demo-app-unicodex documentation](https://github.com/GoogleCloudPlatform/django-demo-app-unicodex/tree/master/docs), referencing it where possible, but not repeating it. 
+
+If you're coming to this repo and what a self-guided tutorial, [see the walkthrough](https://github.com/GoogleCloudPlatform/django-demo-app-unicodex/tree/master/docs). 
 
 ## Licence
 

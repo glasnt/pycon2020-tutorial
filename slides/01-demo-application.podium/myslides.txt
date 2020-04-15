@@ -21,16 +21,23 @@ Docker compose is a tool that allows us to define mutliple-container Docker appl
 
 ---
 
-#= Download the sample application
+#= Download code, deploy locally
 
- 
+### .smol[glasnt.com/unicodex-tutorial/01-demo-application/]
 
+Note: For each of the sections today, I'll direct you to a page to follow the isntructions for the section, hold this slide up for a few sections, then complete the section myself, so you can see if your results match, or compare your results to mine. 
 
+So, Go ahead and follow the instructions in section one of the tutorial. 
 
+I'll wait here for you. 
 
+[hold music]
 
 ---
 
+##= Show and tell: 
+### docker-compose build, run, up
+### unicodex functionality. 
 
 
 ---
