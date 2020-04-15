@@ -1,0 +1,40 @@
+#= Part One: Demo Application
+### .thick[Deploying Django on Serverless Infrastructure]
+---
+
+#= Looking at unicodex
+### .smol[github.com/GoogleCloudPlatform/django-demo-app-unicodex]
+
+Note: In this section, we're going to take a look at our demo application, what it looks like, and how we can deploy a copy of it locally. 
+
+---
+
+#= Requirements
+## Docker Desktop
+## Docker Compose
+
+Note: for this section you will need a local installations of Docker Docker and Docker compose
+
+Docker is a platform that allows us to run containers, and docker desktop is a way you can run containers on your own laptop. 
+
+Docker compose is a tool that allows us to define mutliple-container Docker applications. 
+
+---
+
+#= Download the sample application
+
+ 
+
+
+
+
+
+---
+
+
+
+---
+
+##= Onto part two!
+
+

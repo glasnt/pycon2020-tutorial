@@ -2,7 +2,6 @@
  * Basic slide layout and colors
  ******************************/
 @import url("../resources/fonts/pt-sans.css");
-@import url("../resources/fonts/pt-serif.css");
 @import url("../resources/fonts/roboto.css");
 
 
@@ -46,6 +45,7 @@ h1, h2, h3, .title h1, .title h2, .title h3 {
     font-family: 'PT Sans';
     font-weight: 400;
     text-align: center;
+    margin:0;
 }
 
 h1, .title h1 { font-size: 5em; }
