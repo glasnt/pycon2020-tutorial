@@ -7,10 +7,10 @@
 1. [Introduction](00-intro/)
 1. [Demo Application](01-demo-application/)
 1. [Setup](02-setup/)
-1. [Backing services]()
-1. [First deployment]()
-1. [Source based deployment]()
-1. [Provisioning automation]()
+1. [Backing services](03-backing-services/)
+1. [First deployment](04-first-deployment/)
+1. [Source based deployment](05-source-deployments/)
+1. [Provisioning automation](06-provisioning-automation/)
 
 ## How this repo works
 

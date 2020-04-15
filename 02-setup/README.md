@@ -1,17 +1,16 @@
-# Demo Appliation
+# Setup for Google Cloud
 
-[Reference slides](../slides/02-setup)
+[Reference slides](slides.podium)
 
 ## Installation Requirements
 
-* [Docker Desktop](https://www.docker.com/products/docker-desktop)
-* [Docker Compose](https://docs.docker.com/compose/install/#install-compose)
+* gcloud
 
 ## Download code
 
 * [Source code zip](https://github.com/GoogleCloudPlatform/django-demo-app-unicodex/archive/pycon2020.zip)
 
-## Try the applcation locally
+## Setup reference
 
-* [reference tutorial section](https://github.com/GoogleCloudPlatform/django-demo-app-unicodex/blob/master/docs/00-test-local.md)
+* [reference tutorial section](https://github.com/GoogleCloudPlatform/django-demo-app-unicodex/blob/master/docs/01-setup-gcp.md)
 

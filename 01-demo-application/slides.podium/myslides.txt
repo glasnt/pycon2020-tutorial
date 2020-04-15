@@ -37,8 +37,16 @@ I'll wait here for you.
 
 ##= Show and tell: 
 ### docker-compose build, run, up
-### unicodex functionality. 
+### unicodex functionality - sampledata, admin, action
 
+---
+
+##= Architecture
+## Web, database, static. 
+
+TODO(glasnt) docker container listing
+Static debug default setup
+docker-compose environment variables
 
 ---
 

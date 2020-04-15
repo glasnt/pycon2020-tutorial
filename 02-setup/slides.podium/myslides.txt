@@ -1,33 +1,35 @@
-#= Part One: Demo Application
+#= Part Two: Setting up for Google Cloud
 ### .thick[Deploying Django on Serverless Infrastructure]
 ---
 
-#= Looking at unicodex
-### .smol[github.com/GoogleCloudPlatform/django-demo-app-unicodex]
+#= Local deployment review
+## Web, database, static
+---
 
-Note: In this section, we're going to take a look at our demo application, what it looks like, and how we can deploy a copy of it locally. 
+#= Production deployment
+## Web, database, static. 
+
 
 ---
+
+#= But first, Google Cloud
+
+---
+
+
 
 #= Requirements
-## Docker Desktop
-## Docker Compose
+## Google Cloud account
+## `gcloud`
 
-Note: for this section you will need a local installations of Docker Docker and Docker compose
-
-Docker is a platform that allows us to run containers, and docker desktop is a way you can run containers on your own laptop. 
-
-Docker compose is a tool that allows us to define mutliple-container Docker applications. 
 
 ---
 
-#= Download code, deploy locally
+#= Install and configure `gcloud`
 
-### .smol[glasnt.com/unicodex-tutorial/01-demo-application/]
+### .smol[glasnt.com/unicodex-tutorial/02-setup/]
 
-Note: For each of the sections today, I'll direct you to a page to follow the isntructions for the section, hold this slide up for a few sections, then complete the section myself, so you can see if your results match, or compare your results to mine. 
-
-So, Go ahead and follow the instructions in section one of the tutorial. 
+Note: So, Go ahead and follow the instructions in section one of the tutorial. 
 
 I'll wait here for you. 
 
@@ -35,13 +37,11 @@ I'll wait here for you.
 
 ---
 
+
+
 ##= Show and tell: 
-### docker-compose build, run, up
-### unicodex functionality. 
+### `gcloud` setup, service account listing, enabled services listing
 
-
----
-
-##= Onto part two!
+##= Onto part three!
 
 

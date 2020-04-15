@@ -1,0 +1,24 @@
+#= Part XXX: Template
+### .thick[Deploying Django on Serverless Infrastructure]
+---
+
+#= Do the action
+
+### .smol[glasnt.com/unicodex-tutorial/0X-template]
+
+Note: So, Go ahead and follow the instructions in section three of the tutorial. 
+
+I'll wait here for you. 
+
+[hold music]
+
+---
+
+
+
+##= Show and tell: 
+### Show what we did. 
+
+##= Onto part X+1!
+
+

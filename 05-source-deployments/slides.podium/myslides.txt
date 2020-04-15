@@ -1,0 +1,25 @@
+#= Part Five: Source based deployments
+### .thick[Deploying Django on Serverless Infrastructure]
+---
+
+#= Fork the repo, make a change, deploy it.
+
+### .smol[glasnt.com/unicodex-tutorial/05-source-deployments]
+
+Note: So, Go ahead and follow the instructions in section three of the tutorial. 
+
+I'll wait here for you. 
+
+[hold music]
+
+---
+
+
+
+##= Show and tell: 
+### GitHub Fork, Cloud Build trigger
+---
+
+##= Onto part six
+
+

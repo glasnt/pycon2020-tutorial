@@ -166,4 +166,4 @@ before we start spinning up cloud components, we'll look at our example applicat
 ---
 
 class: title
-## Onto part two!
+## Onto part one!

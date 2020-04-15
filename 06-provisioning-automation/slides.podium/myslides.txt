@@ -1,0 +1,43 @@
+#= Part Six: Provisiong Automation
+### .thick[Deploying Django on Serverless Infrastructure]
+---
+
+#= Our story so far
+## Manual configuration, lots of shell scripts
+
+---
+
+#= Deployments can be automated
+## Shell scripts are brittle
+
+---
+
+#= Infrastructure as Code
+## Defining our backing services as code
+
+---
+
+#= Terraform
+## Define and provision resources
+---
+
+#= Have a go at Terraform
+
+### .smol[glasnt.com/unicodex-tutorial/06-provisioning-automation]
+
+Note: So, Go ahead and follow the instructions in section six of the tutorial. 
+
+I'll wait here for you. 
+
+[hold music]
+
+---
+
+##= Show and tell: 
+### Terraform setup, terraform script
+### compare shell vs terraform
+
+---
+##= Onto the summary
+
+
