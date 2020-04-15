@@ -1,6 +1,6 @@
 # Introduction
 
-[Section slides](../slides/01-intro.podium)
+[Section slides](../slides.podium)
 
 ## References
 
