@@ -53,11 +53,11 @@ class: title
 ### Here's a talk I prepared earlier:
 
 # "What is deployment, anyway?"
-### PyCon 2020, PyGotham 2019
+### PyCon 2020
 
 ???
 
-I have a talk at PyCon 2020 about just that. I'll summarize it in a moment, but if you want to watch the full recording, you can look up the recording from either PyCon 2020, or from PyGotham 2019. It's a half hour talk where I go through what is required to deploy a django project installed for the startproject template, and the mandatory requirements it has.
+I have a talk at PyCon 2020 about just that. I'll summarize it in a moment, but if you want to watch the full recording, you can look up the recording from either PyCon 2020. It's a half hour talk where I go through what is required to deploy a django project installed for the startproject template, and the mandatory requirements it has.
 
 ---
 

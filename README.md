@@ -2,14 +2,16 @@
 
 *This tutorial was originally designed for PyCon 2020, but may be used at other events in the future. If you are following this event from PyCon 2020, ensure you choose the "pycon2020" options. This tutorial is a living entity, but the "pycon2020" version will (to the best effort of the author) match the PyCon 2020 Tutorial recording.*
 
-YouTube: [PyCon 2020 Tutorial: Deploying Django on Serverless Infrastructure](https://us.pycon.org/2020/schedule/presentation/62/)
+PyCon 2020 Tutorial: Deploying Django on Serverless Infrastructure
+
+ * [Description](https://us.pycon.org/2020/schedule/presentation/62/), [Recording](#), [Slides](slides.podium)
 
 ## Contents
 
 1. [Introduction](#introduction)
 1. [Demo Application](#demo-application)
-1. [Setting up your terminal]()
-1. [Backing services](backing-services)
+1. [Setting up your terminal](#setting-up-your-terminal)
+1. [Backing services](#backing-services)
 1. [Build, migrate, and deploy](#build-migrate-and-deploy)
 1. [Automate deployment](#automate-deployment)
 1. [Further study](#further-study)
