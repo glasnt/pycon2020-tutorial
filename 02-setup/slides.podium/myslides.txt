@@ -2,46 +2,7 @@
 ### .thick[Deploying Django on Serverless Infrastructure]
 ---
 
-#= Local deployment review
-## Web, database, static
----
+#= What we'll be doing
 
-#= Production deployment
-## Web, database, static. 
-
-
----
-
-#= But first, Google Cloud
-
----
-
-
-
-#= Requirements
-## Google Cloud account
-## `gcloud`
-
-
----
-
-#= Install and configure `gcloud`
-
-### .smol[glasnt.com/unicodex-tutorial/02-setup/]
-
-Note: So, Go ahead and follow the instructions in section one of the tutorial. 
-
-I'll wait here for you. 
-
-[hold music]
-
----
-
-
-
-##= Show and tell: 
-### `gcloud` setup, service account listing, enabled services listing
-
-##= Onto part three!
-
-
+Installing X
+Doing y

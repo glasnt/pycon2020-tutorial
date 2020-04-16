@@ -1,16 +1,34 @@
 # Setup for Google Cloud
 
-[Reference slides](slides.podium)
+[Section slides](slides.podium)
 
-## Installation Requirements
+In this section we will: 
 
-* gcloud
+* X
+* Y
+* Z
+* (copied from slides)
 
-## Download code
+## Tasks (codelab style)
 
-* [Source code zip](https://github.com/GoogleCloudPlatform/django-demo-app-unicodex/archive/pycon2020.zip)
+Register for Google Cloud
 
-## Setup reference
+Link
+
+Install gcloud
+
+Confirm the 
+
+Link
+
+To enable the services this tutorial needs: 
+
+```shell
+gcloud 
+```
+
+
+## References
 
 * [reference tutorial section](https://github.com/GoogleCloudPlatform/django-demo-app-unicodex/blob/master/docs/01-setup-gcp.md)
 

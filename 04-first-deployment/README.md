@@ -1,6 +1,6 @@
 # First Deployment
 
-[Reference slides](slides.podium)
+[Section slides](slides.podium)
 
 ## Reference
 

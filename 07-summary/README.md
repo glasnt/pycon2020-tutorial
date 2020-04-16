@@ -1,6 +1,6 @@
 # Summary
 
-[Reference slides](slides.podium)
+[Section slides](slides.podium)
 
 ## 🧹 Don't forget to clean up!
 

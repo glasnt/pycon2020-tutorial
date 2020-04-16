@@ -1,6 +1,6 @@
 # Provisioning Backing Services
 
-[Reference slides](slides.podium)
+[Section slides](slides.podium)
 
 ## Components reference
 

@@ -2,16 +2,16 @@
 ### .thick[Deploying Django on Serverless Infrastructure]
 ---
 
-#= Looking at unicodex
+##= Looking at unicodex
 ### .smol[github.com/GoogleCloudPlatform/django-demo-app-unicodex]
 
 Note: In this section, we're going to take a look at our demo application, what it looks like, and how we can deploy a copy of it locally. 
 
 ---
 
-#= Requirements
-## Docker Desktop
-## Docker Compose
+##= Requirements
+### Docker Desktop
+### Docker Compose
 
 Note: for this section you will need a local installations of Docker Docker and Docker compose
 
@@ -21,7 +21,7 @@ Docker compose is a tool that allows us to define mutliple-container Docker appl
 
 ---
 
-#= Download code, deploy locally
+##= Download code, deploy locally
 
 ### .smol[glasnt.com/unicodex-tutorial/01-demo-application/]
 

@@ -4,7 +4,7 @@ class: title
 ---
 
 class: title
-# Looking at unicodex
+## Looking at unicodex
 ### .smol[github.com/GoogleCloudPlatform/django-demo-app-unicodex]
 
 ???
@@ -14,9 +14,9 @@ In this section, we're going to take a look at our demo application, what it loo
 ---
 
 class: title
-# Requirements
-## Docker Desktop
-## Docker Compose
+## Requirements
+### Docker Desktop
+### Docker Compose
 
 ???
 
@@ -29,7 +29,7 @@ Docker compose is a tool that allows us to define mutliple-container Docker appl
 ---
 
 class: title
-# Download code, deploy locally
+## Download code, deploy locally
 
 ### .smol[glasnt.com/unicodex-tutorial/01-demo-application/]
 
@@ -48,8 +48,17 @@ I'll wait here for you.
 class: title
 ## Show and tell:
 ### docker-compose build, run, up
-### unicodex functionality.
+### unicodex functionality - sampledata, admin, action
 
+---
+
+class: title
+## Architecture
+## Web, database, static.
+
+TODO(glasnt) docker container listing
+Static debug default setup
+docker-compose environment variables
 
 ---
 

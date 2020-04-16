@@ -1,6 +1,6 @@
 # Demo Appliation
 
-[Reference slides](../slides/01-demo-application.podium)
+[Section slides](slides.podium)
 
 ## Installation Requirements
 

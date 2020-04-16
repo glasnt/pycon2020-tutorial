@@ -41,7 +41,7 @@ Note: So, when I say deployment, what do I mean by that? What is deployment anyw
 ##= &nbsp;
 ### Here's a talk I prepared earlier: 
 
-## "What is deployment, anyway?"
+# "What is deployment, anyway?"
 ### PyCon 2020, PyGotham 2019
 
 Note: I have a talk at PyCon 2020 about just that. I'll summarize it in a moment, but if you want to watch the full recording, you can look up the recording from either PyCon 2020, or from PyGotham 2019. It's a half hour talk where I go through what is required to deploy a django project installed for the startproject template, and the mandatory requirements it has. 
@@ -57,7 +57,7 @@ Therefore there is a mimimum mandatory set of requirements.
 
 ---
 
-#= Stateful applications are complex
+#= Stateful applications<br>are complex
 
 Note: compare a stateful Django application to a stateless Flask application. You don't *need* a database for a basic Hello World flask application to work. 
 
@@ -71,7 +71,7 @@ But the complexity is lovely.
 
 ---
 
-#= .quote["Every production setup<br>will be a bit different"]
+##= .quote["Every production setup<br>will be a bit different"]
 ### - .prokyon[django] documentation
 
 

@@ -52,7 +52,7 @@ class: title
 ## &nbsp;
 ### Here's a talk I prepared earlier:
 
-## "What is deployment, anyway?"
+# "What is deployment, anyway?"
 ### PyCon 2020, PyGotham 2019
 
 ???
@@ -74,7 +74,7 @@ Therefore there is a mimimum mandatory set of requirements.
 ---
 
 class: title
-# Stateful applications are complex
+# Stateful applications<br>are complex
 
 ???
 
@@ -91,7 +91,7 @@ But the complexity is lovely.
 ---
 
 class: title
-# .quote["Every production setup<br>will be a bit different"]
+## .quote["Every production setup<br>will be a bit different"]
 ### - .prokyon[django] documentation
 
 
@@ -166,4 +166,4 @@ before we start spinning up cloud components, we'll look at our example applicat
 ---
 
 class: title
-## Onto part one!
+## Onto Part One!
