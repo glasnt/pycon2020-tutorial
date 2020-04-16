@@ -1,25 +1,478 @@
 # Unicodex Tutorial
 
-[PyCon 2020 Tutorial: Deploying Django on Serverless Infrastructure](https://us.pycon.org/2020/schedule/presentation/62/)
+*This tutorial was originally designed for PyCon 2020, but may be used at other events in the future. If you are following this event from PyCon 2020, ensure you choose the "pycon2020" options. This tutorial is a living entity, but the "pycon2020" version will (to the best effort of the author) match the PyCon 2020 Tutorial recording.*
 
-## Agenda
+YouTube: [PyCon 2020 Tutorial: Deploying Django on Serverless Infrastructure](https://us.pycon.org/2020/schedule/presentation/62/)
 
-1. [Introduction](00-intro/)
-1. [Demo Application](01-demo-application/)
-1. [Setup](02-setup/)
-1. [Backing services](03-backing-services/)
-1. [First deployment](04-first-deployment/)
-1. [Source based deployment](05-source-deployments/)
-1. [Provisioning automation](06-provisioning-automation/)
+## Contents
 
-## How this repo works
+1. [Introduction](#introduction)
+1. [Demo Application](#demo-application)
+1. [Setting up your terminal]()
+1. [Backing services](backing-services)
+1. [Build, migrate, and deploy](#build-migrate-and-deploy)
+1. [Automate deployment](#automate-deployment)
+1. [Further study](#further-study)
+1. [Cleanup](#cleanup)
 
-This repo is holds materials for the facilitator to run a tutorial around unicodex. 
+## Introduction
 
-It's designed to complement the existing [django-demo-app-unicodex documentation](https://github.com/GoogleCloudPlatform/django-demo-app-unicodex/tree/master/docs), referencing it where possible, but not repeating it. 
+In this tutorial, you will deploy a Django application on Cloud Run, connecting to a managed database (Cloud SQL), using object storage (Cloud Storage), using environment secrets (Secret Manager), and use deployment pipelines (Cloud Build). 
 
-If you're coming to this repo and what a self-guided tutorial, [see the walkthrough](https://github.com/GoogleCloudPlatform/django-demo-app-unicodex/tree/master/docs). 
+This tutorial is designed to be accompanied by an instructor or video recording. Otherwise, you should read through the [self-paced text-only tutorial](https://github.com/GoogleCloudPlatform/django-demo-app-unicodex). 
 
-## Licence
+For this tutorial, you will need a Google Cloud account. If you don't already have account or a credentials haven't been provided for you, you can register for a Google Cloud account by visiting https://console.cloud.google.com/getting-started. 
 
-See LICENCE.md
+It is recommended that you create a new project for this tutorial. This will allow you to keep your tutorial work isolated, and allow for easier cleanup after you have finished with your project.
+
+## Demo Application
+
+In this section, we will deploy a local version of the demo application, to see how it runs. 
+
+You will need to install the following components for your operating system: 
+
+* [Docker Desktop](https://www.docker.com/products/docker-desktop)
+* [Docker Compose](https://docs.docker.com/compose/install/#install-compose)
+
+### Download the sample application
+
+Download a copy of the source code for the demo application. Extract the contents of the zipfile into a directory, and open your terminal to that folder. 
+
+```
+curl https://github.com/GoogleCloudPlatform/django-demo-app-unicodex/archive/pycon2020.zip  -O unicodex-tutorial.zip
+gunzip unicodex-tutorial.zip
+cd unicodex-tutorial
+```
+
+### Locally deploy the sample application
+
+Then, run the Docker Compose commands to build the image, migrate the data, and run the application: 
+
+```shell
+docker-compose build
+docker-compose run --rm web python manage.py migrate
+docker-compose run --rm web python manage.py loaddata sampledata
+docker-compose up
+```
+
+You can now see how the application looks and works running on your local machine by visiting http://0.0.0.0:8080
+
+Try the website out, and log into the Django admin at http://0.0.0.0:8080 using the username and password listed in the `docker-compose.yaml` file.
+
+## Setting up your terminal
+
+To complete the rest of this tutorial, you will need to use the Google Cloud Shell. In the Google Cloud console, select your project and click the "Activate Cloud Shell" icon on the top right of the screen. Ensure your Cloud Shell shows your current project. 
+
+```
+yourusername@cloudshell:~ (YourProjectID)$
+```
+
+Set your Project ID as an environment variable to easily use the later commands: 
+
+```shell
+export PROJECT_ID=$(gcloud config get-value project)
+echo $PROJECT_ID
+``` 
+
+If you prefer, you can install the [`gcloud` utility](https://cloud.google.com/sdk/docs/#install_the_latest_cloud_tools_version_cloudsdk_current_version), and ensure you have configured `gcloud` to reference the project you created for this tutorial. 
+
+```shell
+export PROJECT_ID=YourProjectID
+gcloud config set project $PROJECT_ID
+```
+
+## Backing services
+
+In this section, you will setup the backing services that your hosted application will use. You will setup the Google Cloud project for this tutorial, create a database, create a storage bucket, and create a number of secrets. 
+
+### Enable the Cloud APIs
+
+Enable the Cloud APIs for the components that will be used:
+
+```shell
+gcloud services enable \
+  run.googleapis.com \
+  iam.googleapis.com \
+  compute.googleapis.com \
+  sql-component.googleapis.com \
+  sqladmin.googleapis.com \
+  cloudbuild.googleapis.com \
+  cloudkms.googleapis.com \
+  cloudresourcemanager.googleapis.com \
+  secretmanager.googleapis.com
+```
+
+This should produce a successful message similar to this one:
+
+```
+Operation "operations/acf.cc11852d-40af-47ad-9d59-477a12847c9e" finished successfully.
+```
+
+### Create a service account
+
+Create a service account, the entity that will have authorisation to administrator the backing services, and perform automation tasks: 
+
+```
+export SERVICE_NAME=unicodex
+
+gcloud iam service-accounts create $SERVICE_NAME \
+  --display-name "$SERVICE_NAME service account"
+```
+
+Store a copy of the service account's identifying email address (this will be used later): 
+
+```shell
+export CLOUDRUN_SA=${SERVICE_NAME}@${PROJECT_ID}.iam.gserviceaccount.com
+```
+
+Grant the service account administrator access to Cloud Run, and client access to Cloud SQL: 
+
+```shell
+gcloud projects add-iam-policy-binding $PROJECT_ID \
+    --member serviceAccount:$CLOUDRUN_SA --role roles/cloudsql.client
+    
+gcloud projects add-iam-policy-binding $PROJECT_ID \
+    --member serviceAccount:$CLOUDRUN_SA --role roles/run.admin
+```
+
+The Cloud Build service already exists, so additionally grant it access to access Cloud SQL: 
+
+```
+export PROJECTNUM=$(gcloud projects describe ${PROJECT_ID} --format 'value(projectNumber)')
+export CLOUDBUILD=${PROJECTNUM}@cloudbuild.gserviceaccount.com
+
+gcloud projects add-iam-policy-binding ${PROJECT_ID} \
+    --member serviceAccount:${CLOUDBUILD} --role roles/cloudsql.client
+```
+
+Finally, grant the service account permission for Cloud Build to act as our Service Account: 
+
+```
+gcloud iam service-accounts add-iam-policy-binding ${CLOUDRUN_SA} \
+  --member "serviceAccount:${CLOUDBUILD_SA}" \
+  --role "roles/iam.serviceAccountUser"
+```
+
+### Set your region
+
+Select the region that your components will be deployed within: 
+
+```shell
+export REGION=us-central1
+gcloud config set run/region $REGION
+```
+
+ℹ️ For this tutorial, we recommend using `us-central1`, `europe-north1`, or `asia-northeast1`, but you can choose [any region Cloud Run (fully managed) is supported](https://cloud.google.com/run/docs/locations#managed). 
+
+
+### Create the database
+
+Django supports many databases, but PostgreSQL has the most support. Google Cloud SQL offers managed PostgreSQL database, which can be easily integrated into Django using database connection strings supported by `django-environ`.
+
+Create a small Cloud SQL PostgreSQL database: 
+
+```shell
+export INSTANCE_NAME=postgres
+export ROOT_PASSWORD=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 64 | head -n 1)
+
+gcloud sql instances create $INSTANCE_NAME \
+  --database-version POSTGRES_11 \
+  --tier db-f1-micro  \
+  --region $REGION \
+  --project $PROJECT_ID \
+  --root-password $ROOT_PASSWORD
+```
+
+Store a copy of the fully qualified instance name as environment variable (this will be used later): 
+
+```shell
+export DATABASE_INSTANCE=$PROJECT_ID:$REGION:$INSTANCE_NAME
+```
+
+Within your instance, create a database: 
+
+```
+export DATABASE_NAME=unicodex
+gcloud sql databases create $DATABASE_NAME \
+  --instance=$INSTANCE_NAME
+```
+
+For your instance, create a database user: 
+
+```
+export DBUSERNAME=unicodex-django
+export DBPASSWORD=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 40 | head -n 1)
+```
+
+TODO: proper way
+
+```
+gcloud sql users create $DBUSERNAME \
+  --password $DBPASSWORD \
+  --instance $INSTANCE_NAME
+```
+
+Store a copy of the database connection string using the fully qualified instance name, database name, database user and database password (this will be used later): 
+
+```
+export DATABASE_URL=postgres://$DBUSERNAME:${DBPASSWORD}@//cloudsql/$PROJECT_ID:$REGION:$INSTANCE_NAME/$DATABASE_NAME
+```
+
+### Create the storage bucket
+
+Django needs a place to store static and media assets. The sample project uses `django-storages` which supports Google Cloud Storage. 
+
+Create a Cloud Storage bucket in your chosen region: 
+
+```
+export GS_BUCKET_NAME=${PROJECT_ID}-media
+gsutil mb -l ${REGION} gs://${GS_BUCKET_NAME}
+```
+
+### Store project secrets
+
+The environment variables you have created only exist within your current terminal session. They are best to be stored securely for use by your project. 
+
+Create the `DATABASE_URL` secret: 
+
+```
+gcloud secrets create DATABASE_URL --replication-policy automatic
+
+echo -n "$DATABASE_URL" | gcloud secrets versions add DATABASE_URL --data-file=-
+```
+
+Create the `GS_BUCKET_NAME` secret: 
+
+```
+gcloud secrets create GS_BUCKET_NAME --replication-policy automatic
+
+echo -n "${GS_BUCKET_NAME}" | gcloud secrets versions add GS_BUCKET_NAME --data-file=-
+```
+
+
+Additionally, create a value for the Django `SECRET_KEY`:
+
+```
+SECRET_KEY="$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 50 | head -n 1)"
+
+gcloud secrets create SECRET_KEY --replication-policy automatic
+
+echo -n "${SECRET_KEY}" | gcloud secrets versions add SECRET_KEY --data-file=-
+```
+
+Grant access to all of these values to Cloud Run, and Cloud Build: 
+
+```
+gcloud secrets add-iam-policy-binding DATABASE_URL \
+  --member serviceAccount:${CLOUDRUN} --role roles/secretmanager.secretAccessor
+gcloud secrets add-iam-policy-binding DATABASE_URL \
+  --member serviceAccount:${CLOUDBUILD} --role roles/secretmanager.secretAccessor
+
+
+gcloud secrets add-iam-policy-binding GS_BUCKET_NAME \
+  --member serviceAccount:${CLOUDRUN} --role roles/secretmanager.secretAccessor
+gcloud secrets add-iam-policy-binding GS_BUCKET_NAME \
+  --member serviceAccount:${CLOUDBUILD} --role roles/secretmanager.secretAccessor
+
+gcloud secrets add-iam-policy-binding SECRET_KEY \
+  --member serviceAccount:${CLOUDRUN} --role roles/secretmanager.secretAccessor
+gcloud secrets add-iam-policy-binding SECRET_KEY \
+  --member serviceAccount:${CLOUDBUILD} --role roles/secretmanager.secretAccessor
+```
+
+### Create and store Django admin secrets
+
+The Django admin requires a superuser to access it. Cloud Run does not have an interactive terminal option, so the sample project uses a data migration, which will run within Cloud Build. 
+
+Create a superuser name and password, store them as secrets, and grant Cloud Build access: 
+
+```
+export SUPERUSER="admin"
+gcloud secrets create SUPERUSER --replication-policy automatic
+echo -n "${SUPERUSER}" | gcloud secrets versions add SUPERUSER --data-file=-
+gcloud secrets add-iam-policy-binding SUPERUSER \
+    --member serviceAccount:$CLOUDBUILD_SA --role roles/secretmanager.secretAccessor
+
+
+export SUPERPASS=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 30 | head -n 1)
+=gcloud secrets create SUPERPASS --replication-policy automatic
+echo -n "${SUPERPASS}" | gcloud secrets versions add SUPERUSER --data-file=-
+gcloud secrets add-iam-policy-binding SUPERPASS \
+    --member serviceAccount:$CLOUDBUILD_SA --role roles/secretmanager.secretAccessor
+```
+
+## Build, migrate, and deploy
+
+In this section, given the configured backing services, you will manually build, migrate, and deploy the Django project. 
+
+
+### Copy the sample project code
+
+If you are working in Google Cloud Shell, ensure you follow the ["Download the sample application"](#download-the-sample-application) steps to get a copy of the code in your Cloud Shell.
+
+### Build the image
+
+Within the top folder of the sample application code (the top most folder that contains the Dockerfile), build the image: 
+
+```
+gcloud builds submit --tag gcr.io/$PROJECT_ID/$SERVICE_NAME .
+```
+
+### Deploy and configure the service
+
+Using the image just built, deploy the service: 
+
+```
+gcloud run deploy $SERVICE_NAME \
+  --allow-unauthenticated \
+  --image gcr.io/$PROJECT_ID/$SERVICE_NAME \
+  --add-cloudsql-instances $PROJECT_ID:$REGION:$INSTANCE_NAME \
+  --service-account $CLOUDRUN_SA
+```
+
+Get the URL that the service was just deployed to: 
+
+```
+export SERVICE_URL=$(gcloud run services describe $SERVICE_NAME --format "value(status.url)")
+```
+
+Update the service to set the `CURRENT_HOST` value to this URL:   
+
+```
+gcloud run services update $SERVICE_NAME --update-env-vars "CURRENT_HOST=${SERVICE_URL}"
+```
+
+ℹ️ This project uses Django's [`ALLOWED_HOSTS`](https://docs.djangoproject.com/en/3.0/ref/settings/#allowed-hosts) functionality, but uses a different environment variable to allow for some manipulation of the passed in values (e.g. removing host schema, setting localhost allowance in some situations)
+
+### Manually run a build, migrate, and deploy
+
+Using the provided Cloud Build configuration, manually run a build, migrate, and deploy: 
+
+```
+gcloud builds submit \
+  --config .cloudbuild/build-migrate-deploy.yaml \
+  --substitutions "_REGION=${REGION},_INSTANCE_NAME=${INSTANCE_NAME},_SERVICE=${SERVICE_NAME}"
+```
+
+### See your deployed project
+
+Navigate to the `SERVICE_URL` to see your deployed website:
+
+```
+echo $SERVICE_URL
+```
+
+Log into the Django admin using the superuser name and password. Retrieve these credentials from Secret Manager: 
+
+```
+gcloud secrets versions access latest --secret SUPERUSER
+gcloud secrets versions access latest --secret SUPERPASS
+```
+
+## Automate deployment
+
+In this section, you will create a copy of the sample application as your own GitHub fork, and automate deployments when to merge code. This step moves away from a static copy of the sample application into a living copy. 
+
+This section is best completed on your local terminal where you have already configured access to GitHub repos. No other programs other than `git` will be use here. 
+
+### Fork and clone the code
+
+Navigate to the [sample django-demo-app-unicodex](https://github.com/GoogleCloudPlatform/django-demo-app-unicodex) project on GitHub and fork the repo. Then, clone the copy of your repo to your local machine: 
+
+```
+git clone git@github.com:yourgithubuser/django-demo-app-unicodex
+cd django-demo-app-unicodex
+git checkout tag/pycon2020 -b master
+```
+
+### Create a Build Trigger
+
+In the Google Cloud Console, go to the [Cloud Build Triggers section](https://console.cloud.google.com/cloud-build/triggers), and click 'Connect Repository'. Select "GitHub (Cloud Build GitHub App)", and follow the authorisation prompts to connect your GitHub account to your Google Cloud account. 
+
+Then, select your newly forked repository, read and confirm the authorisation checkbox note, and click 'Connect repository'. Skip the automatic trigger creation (click 'Skip for now', and click 'Continue'). 
+
+In the main trigger listing, click 'Create Trigger', and make a trigger for your project when you merge to master: 
+
+ * Name: "Master Merge"
+ * Event: "Push to branch"
+ * Source: 
+   * Repository: your fork
+   * Branch: "^master$"
+ * Build configuration
+   * Filetype: Cloud Build configuration file
+   * Cloud Build configuration file location: .cloudbuild/build-migrate-deploy.yaml
+ * Substitution variables: 
+   * _REGION: your region (the value of $REGION)
+   * _INSTANCE_NAME: your instance (the value of $INSTANCE_NAME)
+   * _SERVICE: your service name (the value of $SERVICE)
+
+Optionally, after you have connected your repository to your Google Cloud project, you can create the trigger using `gcloud`:
+
+```
+gcloud beta builds triggers create github \
+  --repo-name django-demo-app-unicodex \
+  --repo-owner yourgithubuser \
+  --branch-pattern "^master$" \
+  --build-config .cloudbuild/build-migrate-deploy.yaml \
+  --substitutions "_REGION=${REGION},_INSTANCE_NAME=${INSTANCE_NAME},_SERVICE=${SERVICE_NAME}"
+```
+
+### Make a change
+
+The currently deployed version of the project has a purple "Unicodex" title. To automate a noticeable change, make a change to this base template. 
+
+Open the `unicodex/templates/base.html` file, and change the `h2` header to say "<Yourname> Unicodex". 
+
+Open the `unicodex/static/css/unicodex.css` file, and change the `water` class to a different colour gradient. 
+
+### Trigger the build
+
+Commit your change to your `master` branch, then push your change. 
+
+Since your master branch has been updated, your build will be triggered. Check the status of the build in your [Cloud Build History](https://console.cloud.google.com/cloud-build/builds) (also linked from the orange 'building' dot on the git commit). Once it's successful the orange dot will change to a green checkmark, and your project will have been automatically deployed. 
+
+### Make a more complex change
+
+Since our trigger handles building, migrating, and deploying, it will also handle Django model changes. 
+
+Open the `unicodex/models.py` file, and add a field.  
+
+To create the Django migration, run the `makemigrations` command from Docker Compose: 
+
+```
+docker-compose run --rm web python manage.py makemigrations
+```
+
+Optionally, update the `.cloudbuild/django-migrate.sh` script to run this command for you: 
+
+```
+echo "🎸 migrate"
+python manage.py makemigrations # add this
+python manage.py migrate
+```
+
+Add your new and changed files to a new commit, and merge those changes. You can optionally create these changes in a branch, create a pull request, and then merge them to master. The deployment will not run until a change to master is made. 
+
+
+## Further study
+
+### Provisioning automation
+
+The django-demo-app-unicodex contains a series of Terraform manifests that match the manual shell commands from it's main tutorial. 
+
+### Further pipeline complexity
+
+The current workflow is to automatically do database migrations on master push. By creating a new Cloud Build manifest, the database migration section could be separated out, only to be applied manually. 
+
+Additional triggers could be created so that only tagged releases are published, or any other number of changes. Check the Cloud Build trigger configuration options. 
+
+
+## Cleanup
+
+🧹 Don't forget to clean up!
+
+To avoid incurring charges to your Google Cloud Platform account for the resources used in this tutorial:
+ * In the Cloud Console, go to the [Manage resources](https://console.cloud.google.com/cloud-resource-manager) page.
+ * In the project list, select your project then click Delete.
+ * In the dialog, type the project ID and then click Shut down to delete the project.
+

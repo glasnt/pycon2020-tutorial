@@ -1,8 +1,0 @@
-#= Part Two: Setting up for Google Cloud
-### .thick[Deploying Django on Serverless Infrastructure]
----
-
-#= What we'll be doing
-
-Installing X
-Doing y

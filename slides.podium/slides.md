@@ -162,8 +162,11 @@ This repo also contains documentation to deploy this sample application, which w
 
 before we start spinning up cloud components, we'll look at our example application, test it out locally, and see just what it does.
 
-
 ---
 
 class: title
-## Onto Part One!
+## Testing our application
+
+---
+
+## TODO(glasnt): more slides as required.
