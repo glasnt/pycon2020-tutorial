@@ -74,7 +74,7 @@ yourusername@cloudshell:~ (YourProjectID)$
 
 Confirm the Project ID has been set in `gcloud`: 
 
-```
+```shell
 gcloud config get-value project
 ```
 
@@ -123,7 +123,7 @@ Operation "operations/acf.cc11852d-40af-47ad-9d59-477a12847c9e" finished success
 
 Create a service account, the entity that will have authorisation to administrator the backing services, and perform automation tasks: 
 
-```
+```shell
 gcloud iam service-accounts create unicodex-sa --display-name "unicodex service account"
 ```
 
@@ -145,7 +145,7 @@ gcloud projects add-iam-policy-binding $PROJECT_ID \
 
 Grant the automatically generated Cloud Build service account admin access to Cloud Run, and client access Cloud SQL: 
 
-```
+```shell
 export PROJECTNUM=$(gcloud projects describe ${PROJECT_ID} --format 'value(projectNumber)')
 export CLOUDBUILD_SA=${PROJECTNUM}@cloudbuild.gserviceaccount.com
 
@@ -158,7 +158,7 @@ gcloud projects add-iam-policy-binding ${PROJECT_ID} \
 
 Finally, grant the service account permission for Cloud Build to act as our Service Account: 
 
-```
+```shell
 gcloud iam service-accounts add-iam-policy-binding ${UNICODEX_SA} \
   --member "serviceAccount:${CLOUDBUILD_SA}" \
   --role "roles/iam.serviceAccountUser"
@@ -197,13 +197,13 @@ This operation may take a few minutes to complete.
 
 Within your instance, create a database: 
 
-```
+```shell
 gcloud sql databases create django-unicodex --instance=psql
 ```
 
 For your instance, create a database user: 
 
-```
+```shell
 export DBPASSWORD=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 40 | head -n 1)
 
 gcloud sql users create unicodex-user \
@@ -213,7 +213,7 @@ gcloud sql users create unicodex-user \
 
 Store a copy of the database connection string using the fully qualified instance name, database name, database user and database password (this will be used later): 
 
-```
+```shell
 export DATABASE_URL=postgres://unicodex-user:${DBPASSWORD}@//cloudsql/$PROJECT_ID:$REGION:psql/django-unicodex
 ```
 
@@ -223,7 +223,7 @@ Django needs a place to store static and media assets. The sample project uses [
 
 Create a Cloud Storage bucket in your chosen region: 
 
-```
+```shell
 export GS_BUCKET_NAME=${PROJECT_ID}-media
 gsutil mb -l ${REGION} gs://${GS_BUCKET_NAME}
 ```
@@ -234,14 +234,14 @@ The environment variables you have created only exist within your current termin
 
 Create the `DATABASE_URL` secret: 
 
-```
+```shell
 gcloud secrets create DATABASE_URL --replication-policy automatic
 echo -n "$DATABASE_URL" | gcloud secrets versions add DATABASE_URL --data-file=-
 ```
 
 Create the `GS_BUCKET_NAME` secret: 
 
-```
+```shell
 gcloud secrets create GS_BUCKET_NAME --replication-policy automatic
 echo -n "${GS_BUCKET_NAME}" | gcloud secrets versions add GS_BUCKET_NAME --data-file=-
 ```
@@ -249,7 +249,7 @@ echo -n "${GS_BUCKET_NAME}" | gcloud secrets versions add GS_BUCKET_NAME --data-
 
 Additionally, create a value for the Django `SECRET_KEY`:
 
-```
+```shell
 SECRET_KEY="$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 50 | head -n 1)"
 
 gcloud secrets create SECRET_KEY --replication-policy automatic
@@ -258,7 +258,7 @@ echo -n "${SECRET_KEY}" | gcloud secrets versions add SECRET_KEY --data-file=-
 
 Grant access to all of these values to the Unicodex service account, and the Cloud Build service account: 
 
-```
+```shell
 gcloud secrets add-iam-policy-binding DATABASE_URL \
   --member serviceAccount:${UNICODEX_SA} --role roles/secretmanager.secretAccessor
 gcloud secrets add-iam-policy-binding DATABASE_URL \
@@ -281,7 +281,7 @@ The Django admin requires a superuser to access it. Cloud Run does not have an i
 
 Create a superuser name and password, store them as secrets, and grant the Cloud Build service account access: 
 
-```
+```shell
 export SUPERUSER="admin"
 
 gcloud secrets create SUPERUSER --replication-policy automatic
@@ -310,7 +310,7 @@ If you are working in Google Cloud Shell, and previously downloaded the sample c
 
 Within the top folder of the sample application code (the top most folder that contains the Dockerfile), build the image: 
 
-```
+```shell
 gcloud builds submit --tag gcr.io/$PROJECT_ID/unicodex .
 ```
 
@@ -318,7 +318,7 @@ gcloud builds submit --tag gcr.io/$PROJECT_ID/unicodex .
 
 Using the image just built, deploy the service: 
 
-```
+```shell
 gcloud run deploy unicodex \
   --platform managed \
   --region $REGION \
@@ -331,13 +331,13 @@ gcloud run deploy unicodex \
 
 Get the URL that the service was just deployed to: 
 
-```
+```shell
 export SERVICE_URL=$(gcloud run services describe unicodex --format "value(status.url)" --platform managed --region $REGION)
 ```
 
 Update the service to set the `CURRENT_HOST` value to this URL:   
 
-```
+```shell
 gcloud run services update unicodex \
   --platform managed \
   --region $REGION \
@@ -360,13 +360,13 @@ gcloud builds submit \
 
 Navigate to the `SERVICE_URL` to see your deployed website:
 
-```
+```shell
 echo $SERVICE_URL
 ```
 
 Log into the Django admin using the superuser name and password, retrieving those credentials from Secret Manager: 
 
-```
+```shell
 gcloud secrets versions access latest --secret SUPERUSER
 gcloud secrets versions access latest --secret SUPERPASS
 ```
