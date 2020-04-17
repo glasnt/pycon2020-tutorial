@@ -204,11 +204,7 @@ For your instance, create a database user:
 ```
 export DBUSERNAME=unicodex-django
 export DBPASSWORD=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 40 | head -n 1)
-```
 
-TODO: proper way
-
-```
 gcloud sql users create $DBUSERNAME \
   --password $DBPASSWORD \
   --instance $INSTANCE_NAME
@@ -399,14 +395,14 @@ In the main trigger listing, click 'Create Trigger', and make a trigger for your
  * Event: "Push to branch"
  * Source: 
    * Repository: your fork
-   * Branch: "^master$"
+   * Branch: "`^master$`"
  * Build configuration
    * Filetype: Cloud Build configuration file
    * Cloud Build configuration file location: .cloudbuild/build-migrate-deploy.yaml
  * Substitution variables: 
-   * _REGION: your region (the value of $REGION)
-   * _INSTANCE_NAME: your instance (the value of $INSTANCE_NAME)
-   * _SERVICE: your service name (the value of $SERVICE)
+   * `_REGION`: your region (the value of `$REGION`)
+   * `_INSTANCE_NAME`: your instance (the value of `$INSTANCE_NAME`)
+   * `_SERVICE`: your service name (the value of `$SERVICE`)
 
 Optionally, after you have connected your repository to your Google Cloud project, you can create the trigger using `gcloud`:
 
@@ -423,9 +419,12 @@ gcloud beta builds triggers create github \
 
 The currently deployed version of the project has a purple "Unicodex" title. To automate a noticeable change, make a change to this base template. 
 
-Open the `unicodex/templates/base.html` file, and change the `h2` header to say "<Yourname> Unicodex". 
+As an example: 
 
-Open the `unicodex/static/css/unicodex.css` file, and change the `water` class to a different colour gradient. 
+ * open the `unicodex/templates/base.html` file, and change the `h2` header to say "<Yourname> Unicodex". 
+ * open the `unicodex/static/css/unicodex.css` file, and change the `water` class to a different colour gradient. 
+
+
 
 ### Trigger the build
 
@@ -447,7 +446,7 @@ docker-compose run --rm web python manage.py makemigrations
 
 Optionally, update the `.cloudbuild/django-migrate.sh` script to run this command for you: 
 
-```
+```shell
 echo "🎸 migrate"
 python manage.py makemigrations # add this
 python manage.py migrate
@@ -456,17 +455,94 @@ python manage.py migrate
 Add your new and changed files to a new commit, and merge those changes. You can optionally create these changes in a branch, create a pull request, and then merge them to master. The deployment will not run until a change to master is made. 
 
 
-## Further study
+## Automate Provisioning
 
-### Provisioning automation
+In this section, you will automate the provisioning steps in the earlier sections of this tutorial by using Terraform manifests to create backing services. 
 
-The django-demo-app-unicodex contains a series of Terraform manifests that match the manual shell commands from it's main tutorial. 
+### Create a new project
 
-### Further pipeline complexity
+In the Google Cloud Console, create a new project for this section. Take note of the new Project ID: 
 
-The current workflow is to automatically do database migrations on master push. By creating a new Cloud Build manifest, the database migration section could be separated out, only to be applied manually. 
+```
+export PROJECT_ID=NewProjectID
+gcloud config set project $PROJECT_ID
+```
 
-Additional triggers could be created so that only tagged releases are published, or any other number of changes. Check the Cloud Build trigger configuration options. 
+### Setup Terraform
+
+Install [Terraform](https://learn.hashicorp.com/terraform/getting-started/install.html) for your operating system. 
+
+Create a new service account, with editor rights to be able to be able to create all required backing services. 
+
+
+```
+gcloud iam service-accounts create terraform --display-name "Terraform Service Account"
+
+gcloud projects add-iam-policy-binding ${PROJECT_ID} \
+  --member serviceAccount:terraform@${PROJECT_ID}.iam.gserviceaccount.com \
+  --role roles/editor
+```
+
+For the newly created service account, create a local private key, and save it to your environment: 
+
+```
+$ gcloud iam service-accounts keys create ~/terraform-key.json \
+  --iam-account terraform@${PROJECT_ID}.iam.gserviceaccount.com 
+
+export GOOGLE_APPLICATION_CREDENTIALS=~/terraform-key.json
+```
+
+### Build a new copy of the image 
+
+For this newly created project, build a copy of the image: 
+
+```
+gcloud builds submit --tag gcr.io/$PROJECT_ID/newunicodex .
+```
+
+### Apply Terraform manifests
+
+Navigate to the Terraform manifest directory: 
+
+```
+~/django-demo-app-unicodex $ cd terraform
+```
+
+Initialise the Terraform environment
+
+```
+terraform init
+```
+
+Apply the Terraform manifests to your environment, choosing your new project ID, a region, an instance name and a service name: 
+
+```
+terraform apply \
+  -var "region=us-central1" \
+  -var "service=newunicodex" \
+  -var "project=$PROJECT_ID" \
+  -var "instance_name=newpsql"
+```
+
+⏳ While Terraform is running, in a new terminal or file browser, take a look at the Terrform manifests and how they compare to the original shell commands. 
+
+⚠️ Many Google Cloud components work on an eventual consistency basis. If Terraform fails to complete successfully first time, run the command again until the execution succeeds. 
+
+Once terraform has completed, the command required to run the build, migrate, and deploy Cloud Build configuration will be output: 
+
+```
+gcloud builds submit --config .cloudbuild/build-migrate-deploy.yaml \
+    --substitutions="_REGION=us-central1,_INSTANCE_NAME=newpsql,_SERVICE=newunicodex"
+```
+
+
+Confirm the installation is working by logging into the new service's Django admin using the created superuser name and password, the commands for which were also output:
+
+```
+gcloud secrets versions access latest --secret SUPERUSER
+gcloud secrets versions access latest --secret SUPERPASS
+```
+
 
 
 ## Cleanup
