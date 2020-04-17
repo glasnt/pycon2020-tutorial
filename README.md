@@ -37,12 +37,12 @@ You will need to install the following components for your operating system:
 
 ### Download the sample application
 
-Download a copy of the source code for the demo application, an application called "unicodex". Extract the contents of the zipfile into a directory, and open your terminal to that folder. 
+Download a [copy of the source code for the demo application](https://github.com/GoogleCloudPlatform/django-demo-app-unicodex/releases/tag/pycon2020), an application called "unicodex". Extract the contents of the zipfile into a directory, and open your terminal to that folder. 
 
 ```
 curl https://github.com/GoogleCloudPlatform/django-demo-app-unicodex/archive/pycon2020.zip -Lo unicodex-tutorial.zip
 unzip unicodex-tutorial.zip
-cd django-unicodex-tutorial-pycon	2020
+cd django-demo-app-unicodex-pycon2020
 ```
 
 The current folder will contain many files, including a `Dockerfile` and `docker-compose.yml` file, and many folders, including a `unicodex` folder. 
