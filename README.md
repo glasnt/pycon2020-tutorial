@@ -367,9 +367,11 @@ echo $SERVICE_URL
 Log into the Django admin using the superuser name and password, retrieving those credentials from Secret Manager: 
 
 ```shell
-gcloud secrets versions access latest --secret SUPERUSER
-gcloud secrets versions access latest --secret SUPERPASS
+gcloud secrets versions access latest --secret SUPERUSER && echo ""
+gcloud secrets versions access latest --secret SUPERPASS && echo ""
 ```
+
+⚠️ The secrets do not themselves contain a newline character, so without the `echo` at the end, the values would be harder to copy from the output.  
 
 ## Automate deployment
 
