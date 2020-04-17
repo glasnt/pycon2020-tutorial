@@ -14,7 +14,6 @@ PyCon 2020 Tutorial: Deploying Django on Serverless Infrastructure
 1. [Backing services](#backing-services)
 1. [Build, migrate, and deploy](#build-migrate-and-deploy)
 1. [Automate deployment](#automate-deployment)
-1. [Further study](#further-study)
 1. [Cleanup](#cleanup)
 
 ## Introduction
