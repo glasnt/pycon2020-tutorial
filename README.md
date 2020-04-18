@@ -228,6 +228,14 @@ export GS_BUCKET_NAME=${PROJECT_ID}-media
 gsutil mb -l ${REGION} gs://${GS_BUCKET_NAME}
 ```
 
+Allow the unicodex service account admin access to the bucket: 
+
+```shell
+gsutil iam ch \
+  serviceAccount:${UNICODEX_SA}:roles/storage.objectAdmin \
+  gs://${GS_BUCKET_NAME}
+```
+
 ### Store project secrets
 
 The environment variables you have created only exist within your current terminal session. They are best to be stored securely for use by your project. 
