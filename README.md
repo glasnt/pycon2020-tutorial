@@ -49,7 +49,9 @@ The current folder will contain many files, including a `Dockerfile` and `docker
 
 ### Locally deploy the sample application
 
-Then, run the Docker Compose commands to build the image, migrate the data, and run the application. In one terminal: 
+The `docker-compose.yml` file contains the configurations required to run a web container against a postgres container. Take the time to look at this file. You can choose to change the default values for the admin password and secret key, but that is not nessessary for this test. 
+
+Now, run the Docker Compose commands to build the image, migrate the data, and run the application. In one terminal: 
 
 ```shell
 docker-compose up db
