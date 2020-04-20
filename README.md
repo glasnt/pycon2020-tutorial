@@ -412,11 +412,16 @@ cd django-demo-app-unicodex
 git checkout tag/pycon2020 -b master
 ```
 
-### Create a Build Trigger
+### Connecting to the source respository. 
 
-In the Google Cloud Console, go to the [Cloud Build Triggers section](https://console.cloud.google.com/cloud-build/triggers), and click 'Connect Repository'. Select "GitHub (Cloud Build GitHub App)", and follow the authorisation prompts to connect your GitHub account to your Google Cloud account. 
+Before you can create a trigger, you must first [connect your GitHub repo with Cloud Build](https://cloud.google.com/cloud-build/docs/running-builds/create-manage-triggers#connecting_to_source_repositories).
 
-Then, select your newly forked repository, read and confirm the authorisation checkbox note, and click 'Connect repository'. Skip the automatic trigger creation (click 'Skip for now', and click 'Continue'). 
+In the Google Cloud Console, go to the [Cloud Build Triggers section](https://console.cloud.google.com/cloud-build/triggers), and click 'Connect Repository'. Select "GitHub (Cloud Build GitHub App)", and follow the authorisation prompts to connect your GitHub account to your Google Cloud account. You will be prompted to install the Google Cloud Build app into your GitHub account; ensure you allow only your `unicodex` fork. 
+
+Back in the Google Cloud interface, select your forked repository, read and confirm the authorisation checkbox note, and click 'Connect repository'. Skip the automatic trigger creation (click 'Skip for now', and click 'Continue'). 
+
+
+### Creating a trigger
 
 In the main trigger listing, click 'Create Trigger', and make a trigger for your project when you merge to master: 
 
