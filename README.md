@@ -432,7 +432,7 @@ In the main trigger listing, click 'Create Trigger', and make a trigger for your
    * Branch: "`^master$`"
  * Build configuration
    * Filetype: Cloud Build configuration file
-   * Cloud Build configuration file location: .cloudbuild/build-migrate-deploy.yaml
+   * Cloud Build configuration file location: `.cloudbuild/build-migrate-deploy.yaml`
  * Substitution variables: 
    * `_REGION`: (the value of `$REGION`)
    * `_INSTANCE_NAME`: psql
@@ -455,7 +455,7 @@ The currently deployed version of the project has a purple "Unicodex" title. To 
 
 As an example: 
 
- * open the `unicodex/templates/base.html` file, and change the `h2` header to say "<Yourname> Unicodex". 
+ * open the `unicodex/templates/base.html` file, and change the `<h2>` header to say "My Unicodex". 
  * open the `unicodex/static/css/unicodex.css` file, and change the `water` class to a different colour gradient. 
 
 
