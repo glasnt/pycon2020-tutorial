@@ -49,7 +49,13 @@ The current folder will contain many files, including a `Dockerfile` and `docker
 
 ### Locally deploy the sample application
 
-Then, run the Docker Compose commands to build the image, migrate the data, and run the application: 
+Then, run the Docker Compose commands to build the image, migrate the data, and run the application. In one terminal: 
+
+```shell
+docker-compose up db
+```
+
+In another terminal:  
 
 ```shell
 docker-compose build
