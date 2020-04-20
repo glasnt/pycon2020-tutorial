@@ -163,6 +163,8 @@ gcloud projects add-iam-policy-binding $PROJECT_ID \
     --member serviceAccount:$UNICODEX_SA --role roles/cloudsql.client
 ```
 
+Each `add-iam-policy-binding` command will output information about the policy state, with the output increasing as more bindings are made. 
+
 Grant the automatically generated Cloud Build service account admin access to Cloud Run, and client access Cloud SQL: 
 
 ```
