@@ -62,9 +62,17 @@ You can now see how the application looks and works running on your local machin
 
 Try the website out, and log into the Django admin at [http://0.0.0.0:8080/admin](http://0.0.0.0:8080) using the username and password listed in the `docker-compose.yaml` file under the environment variables `SUPERUSER` and `SUPERPASS`, respectively.
 
-## Setting up your terminal
+## Setting up your project
 
-To complete the rest of this tutorial, you will need to use the [Google Cloud Shell](https://cloud.google.com/shell). This environment includes all of the tools we will need for the rest of this tutorial, including the Google Cloud command-line tool [`gcloud`](https://cloud.google.com/sdk/gcloud). 
+You will need a Google Cloud account to complete this tutorial. 
+
+Sign into the [Cloud Console](http://console.cloud.google.com/) and create a new project. (If you don't already have a Gmail or G Suite account, you must [create one](https://accounts.google.com/SignUp).) 
+
+Next, you'll need to [enable billing](https://console.cloud.google.com/billing) in Cloud Console in order to use Google Cloud resources. Running through this codelab shouldn't cost you more than a few dollars, but it could be more if you decide to use more resources or if you leave them running. New users of Google Cloud are eligible for a [$300 free trial](http://cloud.google.com/free).
+
+## Setting up your shell
+
+This tutorial can be completed using the [Google Cloud Shell](https://cloud.google.com/shell). This environment includes all of the tools we will need for the rest of this tutorial, including the Google Cloud command-line tool [`gcloud`](https://cloud.google.com/sdk/gcloud). 
 
 In the Google Cloud console, select your project, and click the "Activate Cloud Shell" icon on the top right of the screen. Ensure your Cloud Shell shows your project in the prompt: 
 
