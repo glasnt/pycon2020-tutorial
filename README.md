@@ -352,7 +352,8 @@ gcloud run deploy unicodex \
 Get the URL that the service was just deployed to: 
 
 ```
-export SERVICE_URL=$(gcloud run services describe unicodex --format "value(status.url)" --platform managed --region $REGION)
+export SERVICE_URL=$(gcloud run services describe unicodex \
+    --format "value(status.url)" --platform managed --region $REGION)
 ```
 
 Update the service to set the `CURRENT_HOST` value to this URL:   
