@@ -86,7 +86,7 @@ Next, you'll need to [enable billing](https://console.cloud.google.com/billing) 
 
 This tutorial can be completed using the [Google Cloud Shell](https://cloud.google.com/shell). This environment includes all of the tools we will need for the rest of this tutorial, including the Google Cloud command-line tool [`gcloud`](https://cloud.google.com/sdk/gcloud). 
 
-In the Google Cloud console, select your project, and click the "Activate Cloud Shell" icon on the top right of the screen. Ensure your Cloud Shell shows your project in the prompt: 
+In the Google Cloud console, select your project, and click the "Activate Cloud Shell" icon on the top right of the screen, immediately right of the "Search resources and products" dialog. Ensure your Cloud Shell shows your project in the prompt: 
 
 ```
 yourusername@cloudshell:~ (YourProjectID)$ 
