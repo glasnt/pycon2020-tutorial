@@ -319,6 +319,8 @@ gcloud secrets add-iam-policy-binding SUPERPASS \
     --member serviceAccount:$CLOUDBUILD_SA --role roles/secretmanager.secretAccessor
 ```
 
+Later in this tutorial you will be logging into the Django admin, and will need to access this password. For now, it is okay to be left unseen. 
+
 ## Build, migrate, and deploy
 
 In this section, given the configured backing services, you will manually build, migrate, and deploy the Django project. 
