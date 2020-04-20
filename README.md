@@ -68,6 +68,10 @@ You can now see how the application looks and works running on your local machin
 
 Try the website out, and log into the Django admin at [http://0.0.0.0:8080/admin](http://0.0.0.0:8080) using the username and password listed in the `docker-compose.yaml` file under the environment variables `SUPERUSER` and `SUPERPASS`, respectively.
 
+Once you have finished testing out the application, stop the `docker-compose` processes with <kbd>Ctrl</kbd> + <kbd>c</kbd> (<kbd>control </kbd> + <kbd>c</kbd> on Mac keyboards).
+
+ℹ️ After the initial database migration, your local installation can be started again using `docker-compose up`. 
+
 ## Setting up your project
 
 You will need a Google Cloud account to complete this tutorial. 
