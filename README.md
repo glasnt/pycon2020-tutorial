@@ -472,13 +472,13 @@ Since our trigger handles building, migrating, and deploying, it will also handl
 
 Open the `unicodex/models.py` file, and add a field.  
 
-To create the Django migration, run the `makemigrations` command from Docker Compose: 
+To create the Django migration, run the `makemigrations` command from Docker Compose to generate the new migration files: 
 
 ```
 docker-compose run --rm web python manage.py makemigrations
 ```
 
-Optionally, update the `.cloudbuild/django-migrate.sh` script to run this command for you: 
+ℹ️ Instead of using Docker Compose for this step, you could update the `.cloudbuild/django-migrate.sh` script to run this command for you: 
 
 ```shell
 echo "🎸 migrate"
