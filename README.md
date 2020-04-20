@@ -133,7 +133,7 @@ gcloud services enable \
   secretmanager.googleapis.com
 ```
 
-This should produce a successful message similar to this one:
+This command will take a minute to complete, and should produce a successful message similar to this one:
 
 ```
 Operation "operations/acf.cc11852d-40af-47ad-9d59-477a12847c9e" finished successfully.
