@@ -425,9 +425,9 @@ In the main trigger listing, click 'Create Trigger', and make a trigger for your
    * Filetype: Cloud Build configuration file
    * Cloud Build configuration file location: .cloudbuild/build-migrate-deploy.yaml
  * Substitution variables: 
-   * `_REGION`: your region (the value of `$REGION`)
-   * `_INSTANCE_NAME`: your instance (the value of `$INSTANCE_NAME`)
-   * `_SERVICE`: your service name (the value of `$SERVICE`)
+   * `_REGION`: (the value of `$REGION`)
+   * `_INSTANCE_NAME`: psql
+   * `_SERVICE`: unicodex
 
 Optionally, after you have connected your repository to your Google Cloud project, you can create the trigger using `gcloud`:
 
