@@ -24,7 +24,7 @@ This tutorial is designed to be accompanied by an instructor or video recording.
 
 For this tutorial, you will need a Google Cloud account. If you don't already have account or a credentials haven't been provided for you, you can register for a Google Cloud account by visiting [https://console.cloud.google.com/getting-started](https://console.cloud.google.com/getting-started). 
 
-It is recommended that you create a new project for this tutorial. This will allow you to keep your tutorial work isolated, and allow for easier cleanup after you have finished with your project. Many of the componet involved have an ongoing cost, so it is recommended you [cleanup](#cleanup) once you are done. 
+It is recommended that you create a new project for this tutorial. This will allow you to keep your tutorial work isolated, and allow for easier cleanup after you have finished with your project. Many of the components involved have an ongoing cost, so it is recommended you [cleanup](#cleanup) once you are done. 
 
 ## Demo Application
 
@@ -560,7 +560,7 @@ Navigate to the Terraform manifest directory:
 cd terraform
 ```
 
-Initialise the Terraform environment
+Initialise terraform:
 
 ```
 terraform init
@@ -578,7 +578,7 @@ terraform apply \
 
 When prompted, approve the changes by entering "yes". 
 
-⏳ While Terraform is running, in a new terminal or file browser, take a look at the Terrform manifests and how they compare to the original shell commands. 
+⏳ While Terraform is running, in a new terminal or file browser, take a look at the Terraform manifests and how they compare to the original shell commands. 
 
 ⚠️ Many Google Cloud components work on an eventual consistency basis. If Terraform fails to complete successfully first time, run the command again until the execution succeeds. 
 
