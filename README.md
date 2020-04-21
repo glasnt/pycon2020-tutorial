@@ -404,8 +404,6 @@ gcloud secrets versions access latest --secret SUPERUSER && echo ""
 gcloud secrets versions access latest --secret SUPERPASS && echo ""
 ```
 
-⚠️ The secrets do not themselves contain a newline character, so without the `echo` at the end, the values would be harder to copy from the output.  
-
 ## Automate deployment
 
 In this section, you will create a copy of the sample application as your own GitHub fork, and automate deployments when to merge code. This step moves away from a static copy of the sample application into a living copy. 
