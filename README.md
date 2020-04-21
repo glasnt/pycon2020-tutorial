@@ -514,15 +514,6 @@ export PROJECT_ID=NewProjectID
 gcloud config set project $PROJECT_ID
 ```
 
-### Set your region
-
-Select the region that your new components will be deployed within: 
-
-```shell
-export REGION=europe-north1
-gcloud config set run/region $REGION
-```
-
 ### Setup Terraform
 
 Install [Terraform](https://learn.hashicorp.com/terraform/getting-started/install.html) for your operating system. 
