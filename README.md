@@ -446,7 +446,11 @@ In the main trigger listing, click 'Create Trigger', and make a trigger for your
    * `_INSTANCE_NAME`: psql
    * `_SERVICE`: unicodex
 
-Optionally, after you have connected your repository to your Google Cloud project, you can create the trigger using `gcloud`:
+
+Save this new trigger, and confirm it is listed in the interface. 
+
+
+Optionally, you can create this trigger using `gcloud`: 
 
 ```
 gcloud beta builds triggers create github \
