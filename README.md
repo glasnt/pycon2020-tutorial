@@ -205,7 +205,7 @@ Django supports many databases, but PostgreSQL has the most support. Google Clou
 Create a small Cloud SQL PostgreSQL database: 
 
 ```shell
-export ROOT_PASSWORD=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 64 | head -n 1)
+export ROOT_PASSWORD=$(cat /dev/urandom | LC_ALL=C tr -dc 'a-zA-Z0-9' | fold -w 64 | head -n 1)
 
 gcloud sql instances create psql \
   --database-version POSTGRES_11 \
@@ -226,7 +226,7 @@ gcloud sql databases create django-unicodex --instance=psql
 For your instance, create a database user: 
 
 ```shell
-export DBPASSWORD=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 40 | head -n 1)
+export DBPASSWORD=$(cat /dev/urandom | LC_ALL=C tr -dc 'a-zA-Z0-9' | fold -w 40 | head -n 1)
 
 gcloud sql users create unicodex-user \
   --password $DBPASSWORD \
@@ -280,7 +280,7 @@ echo -n "${GS_BUCKET_NAME}" | gcloud secrets versions add GS_BUCKET_NAME --data-
 Additionally, create a value for the Django `SECRET_KEY`:
 
 ```shell
-SECRET_KEY="$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 50 | head -n 1)"
+SECRET_KEY="$(cat /dev/urandom | LC_ALL=C tr -dc 'a-zA-Z0-9' | fold -w 50 | head -n 1)"
 
 gcloud secrets create SECRET_KEY --replication-policy automatic
 echo -n "${SECRET_KEY}" | gcloud secrets versions add SECRET_KEY --data-file=-
@@ -319,7 +319,7 @@ echo -n "${SUPERUSER}" | gcloud secrets versions add SUPERUSER --data-file=-
 gcloud secrets add-iam-policy-binding SUPERUSER \
     --member serviceAccount:$CLOUDBUILD_SA --role roles/secretmanager.secretAccessor
 
-export SUPERPASS=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 30 | head -n 1)
+export SUPERPASS=$(cat /dev/urandom | LC_ALL=C tr -dc 'a-zA-Z0-9' | fold -w 30 | head -n 1)
 
 gcloud secrets create SUPERPASS --replication-policy automatic
 echo -n "${SUPERPASS}" | gcloud secrets versions add SUPERPASS --data-file=-
