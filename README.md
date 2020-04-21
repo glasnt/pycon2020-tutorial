@@ -6,7 +6,7 @@ PyCon 2020 Tutorial: Deploying Django on Serverless Infrastructure
 
  * [Description](https://us.pycon.org/2020/schedule/presentation/62/), [Recording](#), [Slides](slides.podium)
 
-## Contents
+# Contents
 
 1. [Introduction](#introduction)
 1. [Demo Application](#demo-application)
@@ -16,7 +16,7 @@ PyCon 2020 Tutorial: Deploying Django on Serverless Infrastructure
 1. [Automate deployment](#automate-deployment)
 1. [Cleanup](#cleanup)
 
-## Introduction
+# Introduction
 
 In this tutorial, you will deploy a Django application on [Google Cloud](https://cloud.google.com/), running the service on [Cloud Run](https://http://cloud.run/), connecting to a managed database ([Cloud SQL](https://cloud.google.com/sql)), using object storage ([Cloud Storage](http://cloud.google.com/storage)), using environment secrets ([Secret Manager](https://cloud.google.com/secret-manager)), and use deployment pipelines ([Cloud Build](https://cloud.google.com/cloud-build)). 
 
@@ -26,7 +26,7 @@ For this tutorial, you will need a Google Cloud account. If you don't already ha
 
 It is recommended that you create a new project for this tutorial. This will allow you to keep your tutorial work isolated, and allow for easier cleanup after you have finished with your project. Many of the components involved have an ongoing cost, so it is recommended you [cleanup](#cleanup) once you are done. 
 
-## Demo Application
+# Demo Application
 
 In this section, we will deploy a local version of the demo application, to see how it runs. 
 
@@ -35,7 +35,7 @@ You will need to install the following components for your operating system:
 * [Docker Desktop](https://www.docker.com/products/docker-desktop)
 * [Docker Compose](https://docs.docker.com/compose/install/#install-compose)
 
-### Download the sample application
+## Download the sample application
 
 Download a [copy of the source code for the demo application](https://github.com/GoogleCloudPlatform/django-demo-app-unicodex/releases/tag/pycon2020), an application called "unicodex". Extract the contents of the zipfile into a directory, and open your terminal to that folder. 
 
@@ -47,7 +47,7 @@ cd django-unicodex-tutorial-pycon2020
 
 The current folder will contain many files, including a `Dockerfile` and `docker-compose.yml` file, and many folders, including a `unicodex` folder. 
 
-### Locally deploy the sample application
+## Locally deploy the sample application
 
 The `docker-compose.yml` file contains the configurations required to run a web container against a postgres container. Take the time to look at this file. You can choose to change the default values for the admin password and secret key, but that is not nessessary for this test. 
 
@@ -63,16 +63,21 @@ In another terminal:
 docker-compose build
 docker-compose run --rm web python manage.py migrate
 docker-compose run --rm web python manage.py loaddata sampledata
-docker-compose up
+docker-compose up web
 ```
 
-You can now see how the application looks and works running on your local machine by visiting [http://0.0.0.0:8080](http://0.0.0.0:8080)
+You can now see how the application looks and works running on your local machine by visiting [http://localhost:8080](http://localhost:8080)
 
-Try the website out, and log into the Django admin at [http://0.0.0.0:8080/admin](http://0.0.0.0:8080) using the username and password listed in the `docker-compose.yaml` file under the environment variables `SUPERUSER` and `SUPERPASS`, respectively.
+Try the website out, and log into the Django admin at [http://localhost:8080/admin](http://localhost:8080) using the username and password listed in the `docker-compose.yml` file under the environment variables `SUPERUSER` and `SUPERPASS`, respectively.
 
 Once you have finished testing out the application, stop the `docker-compose` processes with <kbd>Ctrl</kbd> + <kbd>c</kbd> (<kbd>control </kbd> + <kbd>c</kbd> on Mac keyboards).
 
 ℹ️ After the initial database migration, your local installation can be started again using `docker-compose up`. 
+
+
+# Manual Deployment
+
+You will now go through the process of deploying this demo application to Google Cloud. 
 
 ## Setting up your project
 
@@ -80,9 +85,9 @@ You will need a Google Cloud account to complete this tutorial.
 
 Sign into the [Cloud Console](http://console.cloud.google.com/) and create a new project. (If you don't already have a Gmail or G Suite account, you must [create one](https://accounts.google.com/SignUp).) 
 
-Next, you'll need to [enable billing](https://console.cloud.google.com/billing) in Cloud Console in order to use Google Cloud resources. Running through this codelab shouldn't cost you more than a few dollars, but it could be more if you decide to use more resources or if you leave them running. New users of Google Cloud are eligible for a [$300 free trial](http://cloud.google.com/free).
+Next, you'll need to [enable billing](https://console.cloud.google.com/billing) in Cloud Console in order to use Google Cloud resources. Running through this codelab shouldn't cost you more than a few dollars, but it could be more if you decide to use more resources or if you leave them running. New users of Google Cloud are eligible for a [\$300 free trial](http://cloud.google.com/free).
 
-## Setting up your shell
+### Setting up your shell
 
 This tutorial can be completed using the [Google Cloud Shell](https://cloud.google.com/shell). This environment includes all of the tools we will need for the rest of this tutorial, including the Google Cloud command-line tool [`gcloud`](https://cloud.google.com/sdk/gcloud). 
 
@@ -112,6 +117,18 @@ export PROJECT_ID=YourProjectID
 gcloud config set project $PROJECT_ID
 ```
 
+### Set your region
+
+Select the region that your components will be deployed within: 
+
+```shell
+export REGION=us-central1
+gcloud config set run/region $REGION
+```
+
+ℹ️ For this tutorial, we recommend using `us-central1`, `europe-north1`, or `asia-northeast1`, but you can choose [any region Cloud Run (fully managed) is supported](https://cloud.google.com/run/docs/locations#managed). 
+
+
 ## Backing services
 
 In this section, you will setup the backing services that your hosted application will use. You will setup the Google Cloud project for this tutorial, create a database, create a storage bucket, and create a number of secrets. 
@@ -139,7 +156,7 @@ This command will take a minute to complete, and should produce a successful mes
 Operation "operations/acf.cc11852d-40af-47ad-9d59-477a12847c9e" finished successfully.
 ```
 
-### Create a service account
+### Create and configure service accounts
 
 Create a service account, the entity that will have authorisation to administrator the backing services, and perform automation tasks: 
 
@@ -185,17 +202,6 @@ gcloud iam service-accounts add-iam-policy-binding ${UNICODEX_SA} \
   --member "serviceAccount:${CLOUDBUILD_SA}" \
   --role "roles/iam.serviceAccountUser"
 ```
-
-### Set your region
-
-Select the region that your components will be deployed within: 
-
-```shell
-export REGION=us-central1
-gcloud config set run/region $REGION
-```
-
-ℹ️ For this tutorial, we recommend using `us-central1`, `europe-north1`, or `asia-northeast1`, but you can choose [any region Cloud Run (fully managed) is supported](https://cloud.google.com/run/docs/locations#managed). 
 
 
 ### Create the database
@@ -420,7 +426,7 @@ cd django-demo-app-unicodex
 git checkout tag/pycon2020 -b master
 ```
 
-### Connecting to the source respository. 
+### Connect to the source respository
 
 Before you can create a trigger, you must first [connect your GitHub repo with Cloud Build](https://cloud.google.com/cloud-build/docs/running-builds/create-manage-triggers#connecting_to_source_repositories).
 
@@ -526,7 +532,7 @@ gcloud iam service-accounts create terraform --display-name "Terraform Service A
 
 gcloud projects add-iam-policy-binding ${PROJECT_ID} \
   --member serviceAccount:terraform@${PROJECT_ID}.iam.gserviceaccount.com \
-  --role roles/editor
+  --role roles/owner
 ```
 
 For the newly created service account, create a local private key, and save it to your environment: 
@@ -575,7 +581,7 @@ When prompted, approve the changes by entering "yes".
 
 ⏳ While Terraform is running, in a new terminal or file browser, take a look at the Terraform manifests and how they compare to the original shell commands. 
 
-⚠️ Many Google Cloud components work on an eventual consistency basis. If Terraform fails to complete successfully first time, run the command again until the execution succeeds. 
+⚠️ Many Google Cloud components work on an eventual consistency basis. If Terraform fails to complete successfully first time, run the command again until the execution succeeds with "Apply complete! Resources: 0 added, 0 changed, 0 destroyed."
 
 Once terraform has completed, the command required to run the build, migrate, and deploy Cloud Build configuration will be output: 
 
