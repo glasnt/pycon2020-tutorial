@@ -521,6 +521,7 @@ Install [Terraform](https://learn.hashicorp.com/terraform/getting-started/instal
 Create a new service account, with editor rights to be able to be able to create all required backing services: 
 
 ```
+gcloud services enable iam.googleapis.com 
 gcloud iam service-accounts create terraform --display-name "Terraform Service Account"
 
 gcloud projects add-iam-policy-binding ${PROJECT_ID} \
@@ -542,6 +543,7 @@ export GOOGLE_APPLICATION_CREDENTIALS=~/terraform-key.json
 For this newly created project, build a copy of the image: 
 
 ```
+gcloud services enable cloudbuild.googleapis.com
 gcloud builds submit --tag gcr.io/$PROJECT_ID/newunicodex .
 ```
 
