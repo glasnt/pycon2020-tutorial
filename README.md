@@ -1,19 +1,19 @@
-# Unicodex Tutorial
+# PyCon 2020 Tutorial
+## Deploying Django on Serverless Infrastructure
 
-*This tutorial was originally designed for PyCon 2020, but may be used at other events in the future. If you are following this event from PyCon 2020, ensure you choose the "pycon2020" options. This tutorial is a living entity, but the "pycon2020" version will (to the best effort of the author) match the PyCon 2020 Tutorial recording.*
 
-PyCon 2020 Tutorial: Deploying Django on Serverless Infrastructure
-
- * [Description](https://us.pycon.org/2020/schedule/presentation/62/), [Recording](#), [Slides](slides.podium)
+[Schedule](https://us.pycon.org/2020/schedule/presentation/62/), [Recording](#), [Slides](slides.podium)
 
 # Contents
 
 1. [Introduction](#introduction)
 1. [Demo Application](#demo-application)
-1. [Setting up your terminal](#setting-up-your-terminal)
-1. [Backing services](#backing-services)
-1. [Build, migrate, and deploy](#build-migrate-and-deploy)
+1. [Manual Deployment](#manual-deployment)
+  1. [Setting up your project](#setting-up-your-terminal)
+  1. [Backing services](#backing-services)
+  2. [Build, migrate, and deploy](#build-migrate-and-deploy)
 1. [Automate deployment](#automate-deployment)
+2. [Automate provisioning](#automate-provisioning)
 1. [Cleanup](#cleanup)
 
 # Introduction
@@ -42,7 +42,7 @@ Download a [copy of the source code for the demo application](https://github.com
 ```
 curl https://github.com/GoogleCloudPlatform/django-demo-app-unicodex/archive/pycon2020.zip -Lo unicodex-tutorial.zip
 unzip unicodex-tutorial.zip
-cd django-unicodex-tutorial-pycon2020
+cd django-demo-app-unicodex-pycon2020
 ```
 
 The current folder will contain many files, including a `Dockerfile` and `docker-compose.yml` file, and many folders, including a `unicodex` folder. 
