@@ -40,8 +40,8 @@ You will need to install the following components for your operating system:
 Download a [copy of the source code for the demo application](https://github.com/GoogleCloudPlatform/django-demo-app-unicodex/releases/tag/pycon2020), an application called "unicodex". Extract the contents of the zipfile into a directory, and open your terminal to that folder. 
 
 ```
-curl https://github.com/GoogleCloudPlatform/django-demo-app-unicodex/archive/pycon2020.zip -Lo unicodex-tutorial.zip
-unzip unicodex-tutorial.zip
+curl https://github.com/GoogleCloudPlatform/django-demo-app-unicodex/archive/pycon2020.zip -Lo pycon2020-tutorial.zip
+unzip pycon2020-tutorial.zip
 cd django-demo-app-unicodex-pycon2020
 ```
 
@@ -123,7 +123,6 @@ Select the region that your components will be deployed within:
 
 ```shell
 export REGION=us-central1
-gcloud config set run/region $REGION
 ```
 
 ℹ️ For this tutorial, we recommend using `us-central1`, `europe-north1`, or `asia-northeast1`, but you can choose [any region Cloud Run (fully managed) is supported](https://cloud.google.com/run/docs/locations#managed). 
@@ -189,10 +188,10 @@ export PROJECTNUM=$(gcloud projects describe ${PROJECT_ID} --format 'value(proje
 export CLOUDBUILD_SA=${PROJECTNUM}@cloudbuild.gserviceaccount.com
 
 gcloud projects add-iam-policy-binding ${PROJECT_ID} \
-    --member serviceAccount:${CLOUDBUILD_SA} --role roles/cloudsql.client
-    
-gcloud projects add-iam-policy-binding ${PROJECT_ID} \
     --member serviceAccount:${CLOUDBUILD_SA} --role roles/run.admin
+
+gcloud projects add-iam-policy-binding ${PROJECT_ID} \
+    --member serviceAccount:${CLOUDBUILD_SA} --role roles/cloudsql.client
 ```
 
 Finally, grant the service account permission for Cloud Build to act as our Service Account: 

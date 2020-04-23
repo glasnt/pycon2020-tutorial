@@ -12,13 +12,6 @@ This tutorial is split up into a few sections, with timestamp links to each of t
 
 ---
 
-##= Introduction
-
-vv glasnt.com/pycon2020-tutorial
-
-Note: the introdution, where we describe what we plan to do
----
-
 ##= Demo Application
 vv glasnt.com/pycon2020-tutorial
 
@@ -52,6 +45,44 @@ Note: Finally, having going through the manual process, we'll work through using
 
 Note: 
 
+
+---
+
+##= Thank you!
+### Feedback? @glasnt
+
+---
+
+##= Database
+
+---
+
+##= Media storage
+
+---
+
+##= Secrets
+
+---
+
+
+##= Service
+
+---
+
+##= Build, Migrate, Deploy
+
+---
+
+##= Automate Deployment
+
+---
+
+##= Automate Provisioning
+
+---
+
+##= Cleanup
 
 ---
 

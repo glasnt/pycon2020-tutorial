@@ -17,16 +17,6 @@ This tutorial is split up into a few sections, with timestamp links to each of t
 ---
 
 class: title
-## Introduction
-
-.footnotes[glasnt.com/pycon2020-tutorial]
-
-???
-
-the introdution, where we describe what we plan to do
----
-
-class: title
 ## Demo Application
 .footnotes[glasnt.com/pycon2020-tutorial]
 
@@ -72,5 +62,52 @@ class: title
 
 ???
 
+
+---
+
+class: title
+## Thank you!
+### Feedback? @glasnt
+
+---
+
+class: title
+## Database
+
+---
+
+class: title
+## Media storage
+
+---
+
+class: title
+## Secrets
+
+---
+
+
+class: title
+## Service
+
+---
+
+class: title
+## Build, Migrate, Deploy
+
+---
+
+class: title
+## Automate Deployment
+
+---
+
+class: title
+## Automate Provisioning
+
+---
+
+class: title
+## Cleanup
 
 ---
