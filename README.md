@@ -2,7 +2,7 @@
 ## Deploying Django on Serverless Infrastructure
 
 
-[Schedule](https://us.pycon.org/2020/schedule/presentation/62/), [Recording](#), [Slides](slides.podium)
+[Schedule](https://us.pycon.org/2020/schedule/presentation/62/), [Recording](https://www.youtube.com/watch?v=oYy9_4fm56o), [Slides](slides.podium)
 
 # Contents
 
